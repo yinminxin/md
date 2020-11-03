@@ -1,0 +1,28 @@
+{
+  "name": "当前项目服务",
+  "version": "1.0.0",
+  "description": "Sport Test Data API",
+  "title": "房间管理服务",
+  "url": "http://localhost:9002",
+  "sampleUrl": "http://1localhost:9001/jwt",
+  "template": {
+    "forceLanguage": "zh-cn"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  },
+  "template": {
+    "jQueryAjaxSetup": {
+      "contentType": "application/json"
+    }
+  },
+  "order": [
+    "demo",
+    "demo_list",
+    "demo_find",
+    "demo_create",
+    "demo_update",
+    "demo_delete"
+  ]
+}

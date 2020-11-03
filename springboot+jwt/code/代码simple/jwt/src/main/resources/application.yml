@@ -1,0 +1,4 @@
+#使用@ @引用maven中定义的属性，springboot屏蔽默认maven资源占位符$ $,并修改为@ @
+spring:
+  profiles:
+    active: @profiles.active@

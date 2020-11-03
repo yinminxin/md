@@ -1,0 +1,59 @@
+server:
+  port: 9002
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/itemstaffmanage?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2b8
+    username: root
+    password: root123
+  jpa:
+    database: mysql
+    #配置数据库引擎和字符集
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    #配置自动建表：updata:没有表新建，有表更新操作
+    hibernate:
+      ddl-auto: update
+    #控制台显示建表语句
+    show-sql: true
+  thymeleaf:
+    #关闭模板缓存
+    cache: false
+  #redis
+  redis:
+    # 数据库索引，默认0
+    database: 0
+    # 服务器IP地址
+    host: localhost
+    # 连接端口
+    port: 6379
+    #    # Redis服务器连接密码（默认为空）
+    #password:
+    #使用lettuce连接池
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 800
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 20
+        # 连接池中的最小空闲连接
+        min-idle: 2
+    # 连接超时时间（毫秒）默认是2000ms
+    timeout: 30000ms
+ymx:
+  jwt:
+    secret: ymx@Login(Auth}*^31)&wanda% # 登录校验的密钥
+    pubKeyPath: D:/rsa/estate/rsa.pub # 公钥地址
+    priKeyPath: D:/rsa/estate/rsa.pri # 私钥地址
+    expire: 10080 # 7天 过期时间,单位分钟
+#    cookieMaxAge: 1800
+#    cookieName: YMX_TOKEN
+
+cors:
+  #allowedOrigins: http://localhost:8080,https://localhost:8443
+  allowedOrigins: "*"
+
+ports:
+  isPorts: true

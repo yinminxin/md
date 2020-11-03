@@ -1,0 +1,30 @@
+.grey{
+	color: #999;
+}
+body{
+	padding-top: 4%;
+}
+.error-cont{
+	position: relative;
+	left: 50%;
+	margin-left: -261px;
+	width: 522px;
+	text-align: center;
+}
+.error-cont img{
+	display: block;
+}
+.error-cont>div{
+	margin-left: 30px;
+}
+.error-cont .title{
+	margin: 50px 0 20px;
+	font-weight: bold;
+	color: #666;
+}
+.error-cont a{
+	margin-top: 55px;
+}
+.error-cont a:hover{
+	color: #fff;
+}
