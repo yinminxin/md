@@ -30,7 +30,7 @@ service mysql restart
 ### 1.4创建一个复制用户
 
 ```shell
-mysql> grant replication slave,replication client on *.* to repl@'10.3.10.101' identified by 'Wonders@300168';
+mysql> grant replication slave,replication client on *.* to repl@'10.3.10.101' identified by '123456';
 Query OK, 0 rows affected, 1 warning (0.00 sec)
 mysql> flush privileges;
 Query OK, 0 rows affected (0.00 sec)
@@ -74,8 +74,8 @@ service mysql restart
 
 ### 2.4创建一个复制用户
 
-```mysql
-mysql> grant replication slave,replication client on *.* to repl@'10.3.10.102' identified by 'Wonders@300168';
+```shell
+mysql> grant replication slave,replication client on *.* to repl@'10.3.10.102' identified by '123456';
 Query OK, 0 rows affected, 1 warning (0.00 sec)
 mysql> flush privileges;
 Query OK, 0 rows affected (0.00 sec)
@@ -101,7 +101,7 @@ mysql> show master status;
 ```mysql
 mysql> unlock tables; //先解锁，将对方数据同步到自己的数据库中
 mysql> stop slave;
-mysql> change master to master_host='10.3.10.102',master_user='repl',master_password='Wonders@300168',master_log_file='mysql-bin.000007',master_log_pos=150;
+mysql> change master to master_host='10.3.10.102',master_user='repl',master_password='123456',master_log_file='mysql-bin.000007',master_log_pos=150;
 Query OK, 0 rows affected, 2 warnings (0.01 sec)
 
 mysql> start slave;
@@ -118,7 +118,7 @@ mysql> show slave status \G;
 ```mysql
 mysql> unlock tables; //先解锁，将对方数据同步到自己的数据库中
 mysql> stop slave;
-mysql> change master to master_host='10.3.10.101',master_user='repl',master_password='Wonders@300168',master_log_file='mysql-bin.000007',master_log_pos=150;
+mysql> change master to master_host='10.3.10.101',master_user='repl',master_password='123456',master_log_file='mysql-bin.000007',master_log_pos=150;
 Query OK, 0 rows affected, 2 warnings (0.01 sec)
 
 mysql> start slave;

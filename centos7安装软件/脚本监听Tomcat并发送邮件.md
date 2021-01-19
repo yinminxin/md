@@ -16,7 +16,7 @@
    vi /etc/mail.rc
    #在文件最后面加上下面4行
    set from=****@wondersgroup.com   #发送人
-   set smtp=***.wondersgroup.com        #邮箱服务器
+   set smtp=****.mail.com        #邮箱服务器
    set smtp-auth-user=YOUR_MAIL_USER          #用户名
    set smtp-auth-password=YOUR_MAIL_PWD.   #密码
    ```
@@ -56,12 +56,12 @@
        sql="insert into hoststatus.wj(hostname, port,status,alivetime) values('${local_ip}', '8080','${alive8080}', '${alivetime}');"
        $MYSQL -e "$sql"
        #发送邮件
-   	echo Tomcat Up=${local_ip}:8080 | mailx -v -s "IPAddress" yinminxin@wondersgroup.com
+   	echo Tomcat Up=${local_ip}:8080 | mailx -v -s "IPAddress" *****@wondersgroup.com
    else
        echo "$URL is down."
        sql="insert into hoststatus.wj(hostname, port,status,alivetime) values('${local_ip}', '8080','${alive8080}', '${alivetime}');"
        $MYSQL -e "$sql"
-   	echo Tomcat Down=${local_ip}:8080 | mailx -v -s "IPAddress" yinminxin@wondersgroup.com
+   	echo Tomcat Down=${local_ip}:8080 | mailx -v -s "IPAddress" *****@wondersgroup.com
    	#重启服务tomcat
    	/usr/local/tomcat/bin/shutdown.sh #服务停止命令
    	/usr/local/tomcat/bin/startup.sh #服务启动命令
@@ -75,7 +75,7 @@
        echo "$URL is down."
        sql="insert into hoststatus.wj(hostname, port,status,alivetime) values('${local_ip}', '8081','${alive8081}', '${alivetime}');"
        $MYSQL -e "$sql"
-   	echo Tomcat Down=${local_ip}:8081 | mailx -v -s "IPAddress" yinminxin@wondersgroup.com
+   	echo Tomcat Down=${local_ip}:8081 | mailx -v -s "IPAddress" *****@wondersgroup.com
    	#重启服务tomcat
    	/usr/local/tomcat/bin/shutdown.sh #服务停止命令
    	/usr/local/tomcat/bin/startup.sh #服务启动命令
