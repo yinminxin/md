@@ -871,5 +871,7 @@ chown -R [用户] [文件/文件夹]
 rz
 #下载
 sz file
+#取txt文件的 前 n行到另一个文件
+head -n etrain.txt > err.txt
 ```
 
