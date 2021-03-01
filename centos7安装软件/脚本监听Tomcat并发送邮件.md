@@ -48,6 +48,11 @@
    mysqlpwd='YOUR_MYSQL_PWD'
    #请求Tomcat地址
    echo $alivetime
+   #-I 仅测试HTTP头
+   #-m 10 最多查询10s
+   #-o /dev/null 屏蔽原有输出信息
+   #-s silent 模式，不输出任何东西
+   #-w %{http_code} 控制额外输出
    alive8080=`curl -I -m 10 -o /dev/null -s -w %{http_code}  $local_ip:8080/p/TESB`
    alive8081=`curl -I -m 10 -o /dev/null -s -w %{http_code}  $local_ip:8081/p/TESB`
    MYSQL="mysql -h$mysqlhost -u$mysqluser -p$mysqlpwd --default-character-set=utf8 -A -N"
@@ -66,7 +71,7 @@
    	/usr/local/tomcat/bin/shutdown.sh #服务停止命令
    	/usr/local/tomcat/bin/startup.sh #服务启动命令
    fi
-
+   
    if [[ ${alive8081} == 200 ]] ; then
        echo "$URL is up."
        sql="insert into hoststatus.wj(hostname, port,status,alivetime) values('${local_ip}', '8081','${alive8081}', '${alivetime}');"

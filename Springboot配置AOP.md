@@ -73,9 +73,9 @@ public @interface LogInfo {
    execution(* com.spring.service..*.businessService())
    ```
 
-   这里需要说明的是，包路径`service..*.businessService()`中的`..`应该理解为延续前面的service路径，表示到service路径为止，或者继续延续service路径，从而包括其子包路径；后面的*.businessService()，这里的*表示匹配一个单词，因为是在方法名前，因而表示匹配任意的类。
+   这里需要说明的是，包路径`service..*.businessService()`中的`..`应该理解为延续前面的service路径，表示到service路径为止，或者继续延续service路径，从而包括其子包路径；后面的`*.businessService()`，这里的`*`表示匹配一个单词，因为是在方法名前，因而表示匹配任意的类。
 
-   如下示例是使用`..`表示任意个数的参数的示例，需要注意，表示参数的时候可以在括号中事先指定某些类型的参数，而其余的参数则由..进行匹配：
+   如下示例是使用`..`表示任意个数的参数的示例，需要注意，表示参数的时候可以在括号中事先指定某些类型的参数，而其余的参数则由`..`进行匹配：
 
    ```java
    execution(* com.spring.service.BusinessObject.businessService(java.lang.String,..))
@@ -86,12 +86,67 @@ public @interface LogInfo {
 - execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)
 
 - 这里问号表示当前项可以有也可以没有，其中各项的语义如下：
+
   - modifiers-pattern：方法的可见性，如public，protected；
   - ret-type-pattern：方法的返回值类型，如int，void等；
   - declaring-type-pattern：方法所在类的全路径名，如com.spring.Aspect；
   - name-pattern：方法名类型，如buisinessService()；
   - param-pattern：方法的参数类型，如java.lang.String；
   - throws-pattern：方法抛出的异常类型，如java.lang.Exception；
+
+- 例子
+
+  ```java
+  // controller包下的所有类的所有方法
+  @Pointcut("execution(public * com.course.ymx.jwt.controller.*.*(..))")
+  ```
+
+### annotation
+
+- @annotation的使用方式与@within的相似，表示匹配使用@annotation指定注解标注的方法将会被环绕，其使用语法如下：
+
+  ```java
+  @annotation(annotation-type)
+  ```
+
+- 如下示例表示匹配使用com.spring.annotation.BusinessAspect注解标注的方法：
+
+  ```java
+  @annotation(com.spring.annotation.BusinessAspect)
+  ```
+
+- 这里我们继续复用`5`节使用的例子进行讲解`@annotation`的用法，只是这里需要对Apple和MyAspect使用和指定注解的方式进行修改，FruitAspect不用修改的原因是声明该注解时已经指定了其可以使用在类，方法和参数上：
+
+  ```java
+  // 目标类，将FruitAspect移到了方法上
+  public class Apple {
+    @FruitAspect
+    public void eat() {
+      System.out.println("Apple.eat method invoked.");
+    }
+  }
+  ```
+
+  ```java
+  @Aspect
+  public class MyAspect {
+    @Around("@annotation(com.business.annotation.FruitAspect)")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+      System.out.println("this is before around advice");
+      Object result = pjp.proceed();
+      System.out.println("this is after around advice");
+      return result;
+    }
+  }
+  ```
+
+- 这里Apple.eat()方法使用FruitAspect注解进行了标注，因而该方法的执行会被切面环绕，其执行结果如下：
+
+  ```
+  this is before around advice
+  Apple.eat method invoked.
+  this is after around advice
+  ```
 
 ### within
 
@@ -265,53 +320,6 @@ public @interface LogInfo {
      put apple into bucket.
      this is after around advice
      ```
-
-### annotation
-
-- @annotation的使用方式与@within的相似，表示匹配使用@annotation指定注解标注的方法将会被环绕，其使用语法如下：
-
-  ```java
-  @annotation(annotation-type)
-  ```
-
-- 如下示例表示匹配使用com.spring.annotation.BusinessAspect注解标注的方法：
-
-  ```java
-  @annotation(com.spring.annotation.BusinessAspect)
-  ```
-
-- 这里我们继续复用`5`节使用的例子进行讲解`@annotation`的用法，只是这里需要对Apple和MyAspect使用和指定注解的方式进行修改，FruitAspect不用修改的原因是声明该注解时已经指定了其可以使用在类，方法和参数上：
-
-  ```java
-  // 目标类，将FruitAspect移到了方法上
-  public class Apple {
-    @FruitAspect
-    public void eat() {
-      System.out.println("Apple.eat method invoked.");
-    }
-  }
-  ```
-
-  ```java
-  @Aspect
-  public class MyAspect {
-    @Around("@annotation(com.business.annotation.FruitAspect)")
-    public Object around(ProceedingJoinPoint pjp) throws Throwable {
-      System.out.println("this is before around advice");
-      Object result = pjp.proceed();
-      System.out.println("this is after around advice");
-      return result;
-    }
-  }
-  ```
-
-- 这里Apple.eat()方法使用FruitAspect注解进行了标注，因而该方法的执行会被切面环绕，其执行结果如下：
-
-  ```
-  this is before around advice
-  Apple.eat method invoked.
-  this is after around advice
-  ```
 
 ### this和target
 
@@ -660,6 +668,13 @@ public class AopReplayAttack {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    
+    /**
+     * 切点-针对类
+     */
+    @Pointcut("@within(com.course.ymx.jwt.aop.security.ReplayAttack)")
+    public void classPointCut(){
+    }
 
     /**
      * 切点-针对方法
